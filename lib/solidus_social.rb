@@ -14,13 +14,13 @@ module SolidusSocial
 
   def self.init_providers
     ::Spree::SocialConfig.providers.each do |provider, credentials|
-      setup_key_for(provider, credentials[:api_key], credentials[:api_secret])
+      setup_key_for(provider, credentials[:api_key], credentials[:api_secret], credentials[:extra_params])
     end
   end
 
-  def self.setup_key_for(provider, key, secret)
+  def self.setup_key_for(provider, key, secret, extra_params={})
     Devise.setup do |config|
-      config.omniauth provider, key, secret, setup: true
+      config.omniauth provider, key, secret, extra_params.merge({setup: true})
     end
   end
 end
